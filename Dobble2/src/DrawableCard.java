@@ -20,6 +20,28 @@ public class DrawableCard extends JPanel{
 		symboles = new DrawableSymbol[Csts.SYMBOLES_CARTE];
 	}
 	
+	public DrawableSymbol getSymbole(int i){
+		return symboles[i];
+	}
+	
+	public boolean isSelected(){
+		boolean t = false;
+		for(int i=0;i<Csts.SYMBOLES_CARTE;i++){
+			if(symboles[i].isSelected())
+				t = true;
+		}
+		return t;
+	}
+	
+	public DrawableSymbol getSelectedSymbole(){
+		int t = 0;
+		for(int i=0;i<Csts.SYMBOLES_CARTE;i++){
+			if(symboles[i].isSelected())
+				t = i;
+		}
+		return symboles[t];
+	}
+	
 	private void ajoutSymboles(Graphics g){
 		placerSymbole();
 		for(int i=0;i<Csts.SYMBOLES_CARTE;i++){
@@ -41,7 +63,7 @@ public class DrawableCard extends JPanel{
 
 			x1 = (int)((Math.cos(i*Math.PI/3.5)*(rayon*pos[temp]))+x+rayon);
 			y1 = (int)((Math.sin(i*Math.PI/3.5)*(rayon*pos[temp]))+y+rayon);
-			symboles[i] = new DrawableSymbol(carte.getSymbole(i),x1,y1, 50, 50);
+			symboles[i] = new DrawableSymbol(carte.getSymbole(i),x1,y1, rayon/3, rayon/3);
 		}
 	}
 	

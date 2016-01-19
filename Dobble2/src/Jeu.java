@@ -1,16 +1,10 @@
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Classe repr�sentant le mode de jeu basique.
@@ -28,9 +22,6 @@ public class Jeu extends JFrame implements MouseListener{
 	private static Paquet p;
 	
 	private DrawableCard screenCard[];
-	private JLabel symboles[][];
-	private int selectedSymbole[][];
-	private boolean selected[];
 	
 	public static int hauteur, largeur;
 	
@@ -62,11 +53,6 @@ public class Jeu extends JFrame implements MouseListener{
 		initFrame();
 		p = new Paquet();
 		
-		symboles = new JLabel[2][8];
-		selectedSymbole = new int[2][2];
-		selected = new boolean[2];
-		endSelection();
-		
 		positionCartes = new Point[Csts.CARTE_FENETRE];
 		
 		positionCartes[0] = new Point((int)getWidth()/4,(int)getHeight()/2);
@@ -84,15 +70,11 @@ public class Jeu extends JFrame implements MouseListener{
 	}
 	
 	private void initFrame(){
-		hauteur = 600;
-		largeur = 800;
+		hauteur = 800;
+		largeur = 1000;
 		setSize(largeur, hauteur);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-	public void endSelection(){
-		selected[0] = false; selected[1] = false;
 	}
 	
 	/**
@@ -140,30 +122,27 @@ public class Jeu extends JFrame implements MouseListener{
 		}
 	}
 	
-	private int rechercheSymbole(int iCarte, int valSymbole){
+	private int rechercheSymbole(int otherCarte, int valSymbole){
 		int temp = 0;
 		for(int k=0;k<Csts.SYMBOLES_CARTE;k++){
+			if(valSymbole == screenCard[otherCarte].getSymbole(k).getSymbole().getValeurSymbole())
+				temp = k;
 		}
 		return temp;
 	}
 	
-	private void forceSelection(int iCarte, int valSymbole){
-	}
-	
-	/**
-	 * M�thode appel�e constamment par la m�thode joue pour selectionner les symbole s'il le faut
-	 * @see joue()
-	 */
-	private void selection(){
+	private void forceSelection(int otherCarte, int valSymbole){
+		screenCard[otherCarte].getSymbole(rechercheSymbole(otherCarte, valSymbole)).setSelected(true);
 		
-	}
-	
-	/**
-	 * M�thode appel�e constamment par le Main pour faire avancer le jeu
-	 */
-	public void joue(){
-		selection();
-		
+		if(screenCard[0].isSelected() && screenCard[1].isSelected()){
+			System.out.println("[!] wait... ");
+			if(screenCard[0].getSelectedSymbole().equals(screenCard[1].getSelectedSymbole())){
+				bonnePaire();
+			}else{
+				mauvaisePaire();
+			}
+			refreshScore();
+		}
 	}
 
 	/**
@@ -171,8 +150,11 @@ public class Jeu extends JFrame implements MouseListener{
 	 */
 	private void bonnePaire() {
 		System.out.println("Nice ! GG.");
+		for(int i=0;i<Csts.CARTE_FENETRE;i++){
+			screenCard[i].getSelectedSymbole().setSelected(false);
+		}
 		score++;
-		nouvelleCartePaquet();
+		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
 	}
 
@@ -183,21 +165,11 @@ public class Jeu extends JFrame implements MouseListener{
 	private void mauvaisePaire() {
 		System.out.println("Kappa.");
 		for(int i=0;i<Csts.CARTE_FENETRE;i++){
+			screenCard[i].getSelectedSymbole().setSelected(false);
 		}
 		score--;
-		nouvelleCartePaquet();
+		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-	}
-
-	/**
-	 * M�thode qui ram�re la carte du paquet sur le tas du joueur et affiche la nouvelle carte du paquet
-	 */
-	private void nouvelleCartePaquet() {
-		for(int i=0;i<Csts.CARTE_FENETRE;i++){
-			for(int j=0;j<Csts.SYMBOLES_CARTE;j++){
-			}
-		}
-		index++;
 	}
 	
 	public void initTexte(){
@@ -209,34 +181,41 @@ public class Jeu extends JFrame implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Component c = getContentPane().findComponentAt(e.getX(), e.getY());
-		if (c instanceof DrawableSymbol) {
-			System.out.println("yes");
+		for(int i=0; i < Csts.CARTE_FENETRE; i++){
+			for(int j=0; j < Csts.SYMBOLES_CARTE; j++){
+				if(screenCard[i].getSymbole(j) == null)break;
+				if(screenCard[i].getSymbole(j).isClicked(e.getPoint())){
+					System.out.println("yes "+i+" "+j);
+					
+					screenCard[i].getSymbole(j).setSelected(true);
+					int otherCard;
+					if(i == 0)
+						otherCard = 1;
+					else
+						otherCard = 0;
+					forceSelection(otherCard, screenCard[i].getSymbole(j).getSymbole().getValeurSymbole());
+				}
+			}
 		}
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 }

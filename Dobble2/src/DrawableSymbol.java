@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -37,8 +38,25 @@ public class DrawableSymbol {
 		selected = flag;
 	}
 	
+	public Symbole getSymbole(){
+		return symbole;
+	}
+	
+	
 	public void paint(Graphics g){
 		g.drawImage(img, x, y, largeur, hauteur, null);
+		//System.out.println(symbole.getValeurSymbole()+" "+x+" "+y+" "+largeur+" "+hauteur);
+	}
+	
+	public boolean isClicked(Point p){
+		return (p.getX() <= (x+largeur) && 
+				p.getX() >= (x) && 
+				p.getY() <= (y+hauteur) &&
+				p.getY() >= (y));
+	}
+	
+	public boolean equals(DrawableSymbol d){
+		return symbole.getValeurSymbole() == d.symbole.getValeurSymbole();
 	}
 
 }
