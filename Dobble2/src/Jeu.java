@@ -1,10 +1,21 @@
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * Classe repr�sentant le mode de jeu basique.
@@ -70,11 +81,62 @@ public class Jeu extends JFrame implements MouseListener{
 	}
 	
 	private void initFrame(){
+		try {
+		    java.net.URL url = getClass().getClassLoader().getResource ("./img/ico/Wallpaperdooble.png");
+		    BufferedImage img = ImageIO.read (url);
+		    //getContentPane().add(new JLabel(new ImageIcon(img)));
+		}
+		catch ( IOException e ) {		
+		    System.out.println ("[!] Erreur : L'image est introuvable.\n" + e);
+		}
 		hauteur = 800;
 		largeur = 1000;
 		setSize(largeur, hauteur);
+		setResizable(false);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Dobble.play.setEnabled(true);
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	/**
@@ -113,7 +175,6 @@ public class Jeu extends JFrame implements MouseListener{
 	 * Cette m�thode n'est appel�e qu'une seule fois dans le constructeur
 	 */
 	private void initialiseCartes(){
-		getContentPane().removeAll();
 		for(int i=0;i<Csts.CARTE_FENETRE;i++){
 			index++;
 			screenCard[i] = new DrawableCard(p.getCarte(indexCartes[index]),(int)positionCartes[i].getX(),(int)positionCartes[i].getY(),largeur/6);
@@ -141,6 +202,9 @@ public class Jeu extends JFrame implements MouseListener{
 			}else{
 				mauvaisePaire();
 			}
+
+			remove(screenCard[0]);
+			remove(screenCard[1]);
 			refreshScore();
 		}
 	}
