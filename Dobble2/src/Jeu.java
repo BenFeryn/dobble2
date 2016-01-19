@@ -1,5 +1,8 @@
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
@@ -55,6 +58,7 @@ public class Jeu extends JFrame implements MouseListener{
 	
 	public Jeu(){
 		super("Dobble");
+		this.addMouseListener(this);
 		initFrame();
 		p = new Paquet();
 		
@@ -202,9 +206,13 @@ public class Jeu extends JFrame implements MouseListener{
 	public void refreshScore(){
 	}
 
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		Component c = getContentPane().findComponentAt(e.getX(), e.getY());
+		if (c instanceof DrawableSymbol) {
+			System.out.println("yes");
+		}
 		
 	}
 
