@@ -1,6 +1,13 @@
+import java.awt.BorderLayout;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Classe repr�sentant le mode de jeu basique.
@@ -11,18 +18,18 @@ import java.util.concurrent.ThreadLocalRandom;
  * Le joueur devra selectionner les symboles en commun sur les <strong>DEUX CARTES</strong> pour valider son coup
  * 
  * @author Camille
- * @version 1.0
+ * @version 2.0
  */
-public class Jeu {
+public class Jeu extends JFrame implements MouseListener{
 
-	private static Fenetre  f;
 	private static Paquet p;
-	private static Souris souris;
 	
-	/**
-	 * Cartes affich�es � l'�cran
-	 */
-	private CarteG cartes[];
+	private DrawableCard screenCard[];
+	private JLabel symboles[][];
+	private int selectedSymbole[][];
+	private boolean selected[];
+	
+	public static int hauteur, largeur;
 	
 	/**
 	 * Index des cartes, utilis� pour le m�lange
@@ -32,7 +39,7 @@ public class Jeu {
 	/**
 	 * Point qui seront utilis�s pour positionner les cartes sur l'�cran
 	 */
-	private Point positionCartes[];
+	public static Point positionCartes[];
 	
 	/**
 	 * Index commun poour cibler le tableau m�lang�
@@ -45,30 +52,43 @@ public class Jeu {
 	 */
 	
 	private int score;
-	private Texte tScore;
-	
-	private Texte joueur;
-	private Texte paquet;
 	
 	public Jeu(){
+		super("Dobble");
+		initFrame();
 		p = new Paquet();
-		f = new Fenetre();
-		souris = new Souris(f.getHauteur());
-		f.addMouseListener(souris);
-		f.addMouseMotionListener(souris);
-		cartes = new CarteG[Csts.CARTE_FENETRE];
+		
+		symboles = new JLabel[2][8];
+		selectedSymbole = new int[2][2];
+		selected = new boolean[2];
+		endSelection();
+		
 		positionCartes = new Point[Csts.CARTE_FENETRE];
 		
-		positionCartes[0] = new Point((int)f.getMilieu().getX()/2,(int)f.getMilieu().getY());
-		positionCartes[1] = new Point((int)(f.getMilieu().getX()/2+f.getMilieu().getX()),(int)f.getMilieu().getY());
+		positionCartes[0] = new Point((int)getWidth()/4,(int)getHeight()/2);
+		positionCartes[1] = new Point((int)(getWidth()*0.75),(int)getHeight()/2);
 	
 		index = -1;
 		initialisationIndexCartes();
+		
+		screenCard = new DrawableCard[Csts.CARTE_FENETRE];
 		initialiseCartes();
 		
 		score = 0;
 		initTexte();
 		
+	}
+	
+	private void initFrame(){
+		hauteur = 600;
+		largeur = 800;
+		setSize(largeur, hauteur);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public void endSelection(){
+		selected[0] = false; selected[1] = false;
 	}
 	
 	/**
@@ -107,35 +127,23 @@ public class Jeu {
 	 * Cette m�thode n'est appel�e qu'une seule fois dans le constructeur
 	 */
 	private void initialiseCartes(){
+		getContentPane().removeAll();
 		for(int i=0;i<Csts.CARTE_FENETRE;i++){
 			index++;
-			cartes[i] = new CarteG(p.getCarte(indexCartes[i]), positionCartes[i], f.getLargeur()/6);
-			f.ajouter(cartes[i]);
-			// TODO � supprimer
-			//System.out.println(cartes[i].getCarte());
+			screenCard[i] = new DrawableCard(p.getCarte(indexCartes[index]),(int)positionCartes[i].getX(),(int)positionCartes[i].getY(),largeur/6);
+			getContentPane().add(screenCard[i]);
+			revalidate();
 		}
 	}
 	
 	private int rechercheSymbole(int iCarte, int valSymbole){
 		int temp = 0;
 		for(int k=0;k<Csts.SYMBOLES_CARTE;k++){
-			if(cartes[iCarte].getSymboleG(k).getSymbole().getValeurSymbole() == valSymbole)
-				temp = k;
 		}
 		return temp;
 	}
 	
 	private void forceSelection(int iCarte, int valSymbole){
-		int j = 0;
-		System.out.println(cartes[iCarte].hasSymbole(valSymbole));
-		if(cartes[iCarte].hasSymbole(valSymbole)){
-			j = rechercheSymbole(iCarte, valSymbole);
-			cartes[iCarte].selectionne(j);
-		}else{
-			cartes[iCarte].selectionne(j);
-		}
-		System.out.println("i :"+iCarte+" j : "+j);
-		System.out.println("[!] Selection du symbole "+cartes[iCarte].getSymboleG(j).getSymbole().getValeurSymbole()+" de la carte "+(iCarte+1)+"("+cartes[iCarte].getCarte().getId()+")");
 	}
 	
 	/**
@@ -143,22 +151,7 @@ public class Jeu {
 	 * @see joue()
 	 */
 	private void selection(){
-		if(souris.getClicGauche()){
-			for(int i=0;i<Csts.CARTE_FENETRE;i++){
-				for(int j=0;j<Csts.SYMBOLES_CARTE;j++){
-					if(cartes[i].getSymboleG(j).intersection(souris.getPosition())){
-						System.out.println("[!] Selection du symbole "+cartes[i].getSymboleG(j).getSymbole().getValeurSymbole()+" de la carte "+(i+1)+"("+cartes[i].getCarte().getId()+")");
-						cartes[i].selectionne(j);
-						int iCarte;
-						if(i == 0)
-							iCarte = 1;
-						else
-							iCarte = 0;
-						forceSelection(iCarte, cartes[i].getSymboleSelectionne().getSymbole().getValeurSymbole());
-					}
-				}
-			}
-		}
+		
 	}
 	
 	/**
@@ -166,15 +159,7 @@ public class Jeu {
 	 */
 	public void joue(){
 		selection();
-		if(cartes[0].getSelectionne() && cartes[1].getSelectionne()){
-			System.out.println("[!] �a compare");
-			if(cartes[0].getSymboleSelectionne().equals(cartes[1].getSymboleSelectionne())){
-				bonnePaire();
-			}else{
-				mauvaisePaire();
-			}
-			refreshScore();
-		}
+		
 	}
 
 	/**
@@ -182,10 +167,6 @@ public class Jeu {
 	 */
 	private void bonnePaire() {
 		System.out.println("Nice ! GG.");
-		for(int i=0;i<Csts.CARTE_FENETRE;i++){
-			cartes[i].setSelectionne(false);
-			cartes[i].getSymboleSelectionne().setSelectionne(false);
-		}
 		score++;
 		nouvelleCartePaquet();
 		System.out.println("Votre score est de "+score+" points !");
@@ -198,8 +179,6 @@ public class Jeu {
 	private void mauvaisePaire() {
 		System.out.println("Kappa.");
 		for(int i=0;i<Csts.CARTE_FENETRE;i++){
-			cartes[i].getSymboleSelectionne().setSelectionne(false);
-			cartes[i].setSelectionne(false);
 		}
 		score--;
 		nouvelleCartePaquet();
@@ -207,32 +186,49 @@ public class Jeu {
 	}
 
 	/**
-	 * M�thode qui ram�re le carte du paquet sur le tas du joueur et affiche la nouvelle carte du paquet
+	 * M�thode qui ram�re la carte du paquet sur le tas du joueur et affiche la nouvelle carte du paquet
 	 */
 	private void nouvelleCartePaquet() {
 		for(int i=0;i<Csts.CARTE_FENETRE;i++){
 			for(int j=0;j<Csts.SYMBOLES_CARTE;j++){
-				f.supprimer(cartes[i].getSymboleG(j));
-				f.repaint();
 			}
-			f.supprimer(cartes[i]);
-			cartes[i] = new CarteG(p.getCarte(indexCartes[index+i]), positionCartes[i], cartes[i].getRayon());
-			f.ajouter(cartes[i]);
 		}
 		index++;
 	}
 	
 	public void initTexte(){
-		tScore = new Texte("Votre score : "+score, new Point(f.getLargeur()/4,f.getHauteur()/12),50);
-		f.ajouter(tScore);
-		
-		joueur = new Texte("Joueur", new Point((int)positionCartes[0].getX()-20,(int)positionCartes[0].getY()+cartes[0].getRayon()+10), 10);
-		paquet = new Texte("Paquet", new Point((int)positionCartes[1].getX()-20,(int)positionCartes[1].getY()+cartes[1].getRayon()+10), 10);
-		f.ajouter(joueur);
-		f.ajouter(paquet);
 	}
 	
 	public void refreshScore(){
-		tScore.setTexte("Votre score : "+score);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
