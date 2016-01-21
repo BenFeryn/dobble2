@@ -94,49 +94,6 @@ public class Jeu extends JFrame implements MouseListener{
 		setSize(largeur, hauteur);
 		setResizable(false);
 		setVisible(true);
-		addWindowListener(new WindowListener() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				Dobble.play.setEnabled(true);
-			}
-			
-			@Override
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 	}
 	
 	/**
@@ -175,9 +132,9 @@ public class Jeu extends JFrame implements MouseListener{
 	 * Cette m�thode n'est appel�e qu'une seule fois dans le constructeur
 	 */
 	private void initialiseCartes(){
+		index++;
 		for(int i=0;i<Csts.CARTE_FENETRE;i++){
-			index++;
-			screenCard[i] = new DrawableCard(p.getCarte(indexCartes[index]),(int)positionCartes[i].getX(),(int)positionCartes[i].getY(),largeur/6);
+			screenCard[i] = new DrawableCard(p.getCarte(indexCartes[index+i]),(int)positionCartes[i].getX(),(int)positionCartes[i].getY(),largeur/6);
 			getContentPane().add(screenCard[i]);
 			revalidate();
 		}
@@ -197,14 +154,16 @@ public class Jeu extends JFrame implements MouseListener{
 		
 		if(screenCard[0].isSelected() && screenCard[1].isSelected()){
 			System.out.println("[!] wait... ");
+			getContentPane().remove(screenCard[0]);
+			getContentPane().remove(screenCard[1]);
 			if(screenCard[0].getSelectedSymbole().equals(screenCard[1].getSelectedSymbole())){
 				bonnePaire();
 			}else{
 				mauvaisePaire();
 			}
-
-			remove(screenCard[0]);
-			remove(screenCard[1]);
+			//removeAll();
+			//remove(screenCard[0]);
+			//remove(screenCard[1]);
 			refreshScore();
 		}
 	}
@@ -249,7 +208,7 @@ public class Jeu extends JFrame implements MouseListener{
 			for(int j=0; j < Csts.SYMBOLES_CARTE; j++){
 				if(screenCard[i].getSymbole(j) == null)break;
 				if(screenCard[i].getSymbole(j).isClicked(e.getPoint())){
-					System.out.println("yes "+i+" "+j);
+					System.out.println("[!] Selection symbole "+screenCard[i].getSymbole(j).getSymbole().getValeurSymbole()+" de la carte "+screenCard[i].getcarte().getId());
 					
 					screenCard[i].getSymbole(j).setSelected(true);
 					int otherCard;

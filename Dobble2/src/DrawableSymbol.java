@@ -9,7 +9,7 @@ public class DrawableSymbol {
 
 	private Symbole symbole;
 	private Image img;
-	private int x, y;
+	private int x, y, x1, y1;
 	private int largeur, hauteur;
 	private boolean selected;
 	
@@ -17,6 +17,8 @@ public class DrawableSymbol {
 		symbole = s;
 		this.x = x - largeur/2;
 		this.y = y - hauteur/2;
+		this.x1 = x + largeur;
+		this.y1 = y + hauteur;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		selected = false;
@@ -45,13 +47,13 @@ public class DrawableSymbol {
 	
 	public void paint(Graphics g){
 		g.drawImage(img, x, y, largeur, hauteur, null);
-		//System.out.println(symbole.getValeurSymbole()+" "+x+" "+y+" "+largeur+" "+hauteur);
+		//System.out.println(symbole.getValeurSymbole()+"["+x+","+y+"],["+(x+largeur)+","+(y+hauteur)+"]");
 	}
 	
 	public boolean isClicked(Point p){
-		return (p.getX() <= (x+largeur) && 
+		return (p.getX() <= (x1) && 
 				p.getX() >= (x) && 
-				p.getY() <= (y+hauteur) &&
+				p.getY() <= (y1) &&
 				p.getY() >= (y));
 	}
 	

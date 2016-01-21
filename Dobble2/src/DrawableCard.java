@@ -24,6 +24,10 @@ public class DrawableCard extends JPanel{
 		return symboles[i];
 	}
 	
+	public Carte getcarte(){
+		return carte;
+	}
+	
 	public boolean isSelected(){
 		boolean t = false;
 		for(int i=0;i<Csts.SYMBOLES_CARTE;i++){
