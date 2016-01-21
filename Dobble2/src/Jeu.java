@@ -229,7 +229,8 @@ public class Jeu extends JFrame implements MouseListener{
 		for(int i=0;i<Csts.CARTE_FENETRE;i++){
 			screenCard[i].getSelectedSymbole().setSelected(false);
 		}
-		score--;
+		if(score > 0)
+		 score--;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
 	}

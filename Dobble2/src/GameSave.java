@@ -21,22 +21,18 @@ public class GameSave {
 		    In = new BufferedReader(new FileReader(Csts.PATHSCORE));
 		    String line = In.readLine();
 		    
-		    if(line != null)
-		    	line += ",";
-		    else
-		    	line = "";
-		    
 		    String[] sco = scoreReader();
-		    if(sco.length >= Csts.NB_SCORES)
-		    {
-		    	insertScore(0,sco,name+" : "+score);
+		    insertScore(0,sco,name+" : "+score+",");
+		    	
+		    for(int i = 0;i<sco.length;i++){
+		    	if(sco[i] != null)
+		    		line += sco[i];
 		    }
-		    else
-		    {
-			    Out = new FileWriter(Csts.PATHSCORE);
-			    Out.write(line+name+" : "+score);
-			    Out.close();
-		    }
+		    	
+		    Out = new FileWriter(Csts.PATHSCORE);
+			Out.write(line);
+			Out.close();
+		    
 		} 
 		catch (FileNotFoundException fnfe) //If the file doesn't exist
 		{
@@ -78,41 +74,41 @@ public class GameSave {
 		{
 			e.printStackTrace();
 		}
-		
 		return scoreboard;
 	}
 	
-	public static int getScore(String s)
+	public static int getScore(String something)
 	{
-		int toReturn = 0;
-		try {
-			toReturn = ((Number)NumberFormat.getInstance().parse("123e")).intValue();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(toReturn);
-		return toReturn;
+		int length = something.length();
+	    String result = "";
+	    for (int i = 0; i < length; i++) {
+	        Character character = something.charAt(i);
+	        if (Character.isDigit(character)) {
+	        	System.out.println("char " + character);
+	            result += character;
+	        }
+	    }
+	    return Integer.parseInt(result);
 	}
 	
 	public static void insertScore(int i, String[] line, String s){
-		System.out.println("taille tab : "+line.length+ " "+i);
-		if(i < Csts.NB_SCORES)
+		System.out.println(line.length);
+		if(i < line.length)
 		{
 			if(line[i] == null)
 			{
-				line[i] = s;
-				System.out.println("if(null)");
+				System.out.println("if null");
+				line[i] = new String(s);
 			}
 			else
 			{
 				System.out.println("else");
-				String temp = s;
+				String temp = new String(s);
 				if(getScore(s) > getScore(line[i]))
 				{
-					System.out.println("if plus grand");
-					temp = line[i];
-					line[i] = s;
+					System.out.println("si plus grand");
+					temp = new String(line[i]);
+					line[i] = new String(s);
 				}
 				insertScore(i+1, line, temp);
 			}
