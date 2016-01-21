@@ -22,6 +22,7 @@ public class Scoreboard extends JFrame
 	{
 		super("Dobble - Scoreboard");
 		String[] scores = GameSave.scoreReader();
+		
 		int nbScores = scores.length;
 		
 		mainPanel = new JPanel(new GridLayout(nbScores+1,1));

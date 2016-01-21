@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.Savepoint;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -90,50 +91,53 @@ public class Dobble extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				scoreboard.setEnabled(false);
-				new Scoreboard().addWindowListener(new WindowListener() {
-					
-					@Override
-					public void windowOpened(WindowEvent e) {
-						// TODO Auto-generated method stub
+				if(GameSave.scoreReader() != null)
+				{
+					scoreboard.setEnabled(false);
+					new Scoreboard().addWindowListener(new WindowListener() {
 						
-					}
-					
-					@Override
-					public void windowIconified(WindowEvent e) {
-						// TODO Auto-generated method stub
+						@Override
+						public void windowOpened(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
 						
-					}
-					
-					@Override
-					public void windowDeiconified(WindowEvent e) {
-						// TODO Auto-generated method stub
+						@Override
+						public void windowIconified(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
 						
-					}
-					
-					@Override
-					public void windowDeactivated(WindowEvent e) {
-						// TODO Auto-generated method stub
+						@Override
+						public void windowDeiconified(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
 						
-					}
-					
-					@Override
-					public void windowClosing(WindowEvent e) {
-						scoreboard.setEnabled(true);
-					}
-					
-					@Override
-					public void windowClosed(WindowEvent e) {
-						// TODO Auto-generated method stub
+						@Override
+						public void windowDeactivated(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
 						
-					}
-					
-					@Override
-					public void windowActivated(WindowEvent e) {
-						// TODO Auto-generated method stub
+						@Override
+						public void windowClosing(WindowEvent e) {
+							scoreboard.setEnabled(true);
+						}
 						
-					}
-				});
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void windowActivated(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+				}
 			}
 		});
 		midPanel = new JPanel();

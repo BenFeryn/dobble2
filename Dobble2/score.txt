@@ -1,1 +1,1 @@
-Kappa:-16,Quel est vôtre nom ? : -28,rien : -1,monsieur l'agent : 2,Kappa : 3,Trop mignon : 2
+Dommage : 1,test : 1,test  : 1
