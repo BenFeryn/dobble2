@@ -1,5 +1,6 @@
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ContainerListener;
@@ -50,7 +51,7 @@ public class Jeu extends JFrame implements MouseListener{
 	public static Point positionCartes[];
 	
 	/**
-	 * Index commun poour cibler le tableau mï¿½langï¿½
+	 * Index commun pour cibler le tableau mï¿½langï¿½
 	 * Il cible la prochaine carte ï¿½ afficher
 	 */
 	private int index;
@@ -62,7 +63,8 @@ public class Jeu extends JFrame implements MouseListener{
 	private static int score;
 	public static String name;
 	
-	public Jeu(){
+	public Jeu()
+	{
 		super("Dobble");
 		this.addMouseListener(this);
 		initFrame();
@@ -84,26 +86,38 @@ public class Jeu extends JFrame implements MouseListener{
 		startTimer(15);
 	}
 	
-	public static int getScore(){
+	public static int getScore()
+	{
 		return score;
 	}
 	
-	Runnable runnable = new Runnable() {
+	Runnable runnable = new Runnable() 
+	{
 		
 		@Override
-		public void run() {
-			name = JOptionPane.showInputDialog(this, "Quel est vôtre nom ?");
+		public void run()
+		{
+			finish();
 		}
 	};
 	
-	void startTimer(int delaySeconds) {
+	private void startTimer(int delaySeconds) 
+	{
 		  Executors.newSingleThreadScheduledExecutor().schedule(
 		    runnable,
 		    delaySeconds,
 		    TimeUnit.SECONDS);
 	}
 	
-	private void initFrame(){
+	protected void finish()
+	{
+		name = JOptionPane.showInputDialog(this, "Votre score est de "+score+"\nQuel est vôtre nom ?");
+		WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+	    Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+	}
+
+	private void initFrame()
+	{
 		try {
 		    java.net.URL url = getClass().getClassLoader().getResource ("./img/ico/Wallpaperdooble.png");
 		    BufferedImage img = ImageIO.read (url);
@@ -124,14 +138,17 @@ public class Jeu extends JFrame implements MouseListener{
 	 * Ce tableau sera mï¿½langer par une aure mï¿½thode
 	 * @see melanCarte(int[] ar)
 	 */
-	private void initialisationIndexCartes(){
+	private void initialisationIndexCartes()
+	{
 		indexCartes = new int[Csts.NB_CARTES];
-		for(int i=0;i<Csts.NB_CARTES;i++){
+		for(int i=0;i<Csts.NB_CARTES;i++)
+		{
 			indexCartes[i] = i;
 		}
 		melangeCartes(indexCartes);
 		for(int i=0;i<indexCartes.length;i++)
 			System.out.print(indexCartes[i]+" ");
+		
 		System.out.println();
 	}
 	
@@ -154,9 +171,11 @@ public class Jeu extends JFrame implements MouseListener{
 	 * Initiaise les deux premiï¿½re cartes du jeu
 	 * Cette mï¿½thode n'est appelï¿½e qu'une seule fois dans le constructeur
 	 */
-	private void initialiseCartes(){
+	private void initialiseCartes()
+	{
 		index++;
-		for(int i=0;i<Csts.CARTE_FENETRE;i++){
+		for(int i=0;i<Csts.CARTE_FENETRE;i++)
+		{
 			screenCard[i] = new DrawableCard(p.getCarte(indexCartes[index+i]),(int)positionCartes[i].getX(),(int)positionCartes[i].getY(),largeur/6);
 			getContentPane().add(screenCard[i]);
 			revalidate();
@@ -184,9 +203,6 @@ public class Jeu extends JFrame implements MouseListener{
 			}else{
 				mauvaisePaire();
 			}
-			//removeAll();
-			//remove(screenCard[0]);
-			//remove(screenCard[1]);
 			refreshScore();
 		}
 	}
