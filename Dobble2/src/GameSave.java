@@ -42,5 +42,29 @@ public class GameSave {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String[] scoreReader()
+	{
+		String[] scoreboard = null;
+		BufferedReader In;
+		
+		try //If the file exists
+		{
+		    In = new BufferedReader(new FileReader(Csts.PATHSCORE));
+		    String line = In.readLine();
+		    
+		    scoreboard = line.split(",");
+		}    
+		catch (FileNotFoundException fnfe) //If the file doesn't exist
+		{
+		
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return scoreboard;
+	}
 
 }
