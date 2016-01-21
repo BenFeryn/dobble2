@@ -1,34 +1,48 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.InputStreamReader;
 
 public class GameSave {
 	
-	public static void saveScore(String name){
+	public static void saveScore(){
 		int score = Jeu.getScore();
-		try
-		{ 
-			if(!new File(Csts.PATHSCORE).exists())
-			{
-				FileWriter lu = new FileWriter(Csts.PATHSCORE);
-				BufferedWriter out = new BufferedWriter(lu);
-				out.write(name+" : "+score); 
-				out.close();
-			}else
-			{
-				Scanner in = new Scanner(Csts.PATHSCORE);
-				String temp = in.nextLine();
-				FileWriter lu = new FileWriter(Csts.PATHSCORE);
-				BufferedWriter out = new BufferedWriter(lu);
-				out.write(temp+","+name+" : "+score); 
-				out.close();
+		String name = Jeu.name;
+		
+		BufferedReader In;
+		FileWriter Out;
+		
+		try //If the file exists
+		{
+		    In = new BufferedReader(new FileReader(Csts.PATHSCORE));
+		    String line = In.readLine();
+		    
+		    if(line != null)
+		    	line += ",";
+		    else
+		    	line = "";
+		     
+		    Out = new FileWriter(Csts.PATHSCORE);
+		    Out.write(line+name+" : "+score);
+		    Out.close();
+		} 
+		catch (FileNotFoundException fnfe) //If the file doesn't exist
+		{
+			try {
+				Out = new FileWriter(Csts.PATHSCORE);
+				Out.write(name+":"+score);
+				Out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		}
-		catch (IOException er) {
-			System.out.println("Saving failed.");;
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
 		}
 	}
 

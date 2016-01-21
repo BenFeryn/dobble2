@@ -55,7 +55,7 @@ public class Dobble extends JFrame{
 					
 					@Override
 					public void windowClosing(WindowEvent e) {
-						GameSave.saveScore("Loic");
+						GameSave.saveScore();
 						play.setEnabled(true);
 					}
 					

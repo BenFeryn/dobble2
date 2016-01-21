@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  * Classe reprï¿½sentant le mode de jeu basique.
@@ -59,6 +60,7 @@ public class Jeu extends JFrame implements MouseListener{
 	 */
 	
 	private static int score;
+	public static String name;
 	
 	public Jeu(){
 		super("Dobble");
@@ -90,7 +92,7 @@ public class Jeu extends JFrame implements MouseListener{
 		
 		@Override
 		public void run() {
-			
+			name = JOptionPane.showInputDialog(this, "Quel est vôtre nom ?");
 		}
 	};
 	

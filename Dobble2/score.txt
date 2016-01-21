@@ -1,1 +1,1 @@
-./score.txt,Loic : -1
+Kappa:-16
