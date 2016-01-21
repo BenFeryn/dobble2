@@ -10,7 +10,9 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -56,7 +58,7 @@ public class Jeu extends JFrame implements MouseListener{
 	 * G�n�re un Paquet de carte, la fen�tre de jeu, la souris, les point o� se trouveront les cartes, m�lange les cartes et place les deux premi�res
 	 */
 	
-	private int score;
+	private static int score;
 	
 	public Jeu(){
 		super("Dobble");
@@ -77,7 +79,26 @@ public class Jeu extends JFrame implements MouseListener{
 		
 		score = 0;
 		initTexte();
+		startTimer(15);
+	}
+	
+	public static int getScore(){
+		return score;
+	}
+	
+	Runnable runnable = new Runnable() {
 		
+		@Override
+		public void run() {
+			
+		}
+	};
+	
+	void startTimer(int delaySeconds) {
+		  Executors.newSingleThreadScheduledExecutor().schedule(
+		    runnable,
+		    delaySeconds,
+		    TimeUnit.SECONDS);
 	}
 	
 	private void initFrame(){
