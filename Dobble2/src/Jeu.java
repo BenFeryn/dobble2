@@ -83,7 +83,7 @@ public class Jeu extends JFrame implements MouseListener{
 		
 		score = 0;
 		initTexte();
-		startTimer(15);
+		startTimer(60);
 	}
 	
 	public static int getScore()
@@ -97,7 +97,8 @@ public class Jeu extends JFrame implements MouseListener{
 		@Override
 		public void run()
 		{
-			finish();
+			if(isActive())
+				finish();
 		}
 	};
 	

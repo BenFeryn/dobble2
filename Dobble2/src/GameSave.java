@@ -79,16 +79,17 @@ public class GameSave {
 	
 	public static int getScore(String something)
 	{
-		int length = something.length();
-	    String result = "";
-	    for (int i = 0; i < length; i++) {
-	        Character character = something.charAt(i);
+		int result = 0;
+	    String[] splitted = something.split(":");
+	    for (int i = 0; i < splitted[1].length(); i++) {
+	        char character = splitted[1].charAt(i);
 	        if (Character.isDigit(character)) {
-	        	System.out.println("char " + character);
-	            result += character;
+	        	int temp = Character.getNumericValue(character);
+	            result *= 10;
+	            result += temp;
 	        }
 	    }
-	    return Integer.parseInt(result);
+	    return result;
 	}
 	
 	public static String insertScore(String[] line, String s)
