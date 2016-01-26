@@ -1,15 +1,25 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.Savepoint;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 
+@SuppressWarnings("serial")
 public class Dobble extends JFrame{
 	
 	static JButton play;
@@ -17,15 +27,26 @@ public class Dobble extends JFrame{
 	static JButton scoreboard;
 	static JButton leave;
 	static Options parameters;
-	private JPanel mainPanel, topPanel, midPanel, botPanel;
+	private JPanel mainPanel;
 	
 	public Dobble(){
 		super("Dobble - Menu");
-		setSize(100, 175);
+		getContentPane().setBackground(new Color(200, 200, 255));
+		
+		//get local graphics environment
+		GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
+		//get maximum window bounds
+		Rectangle maximumWindowBounds=graphicsEnvironment.getMaximumWindowBounds();
+		int hauteur = (int) maximumWindowBounds.getHeight();
+		int largeur = (int) maximumWindowBounds.getWidth();
+		setSize(largeur, hauteur);
+		setResizable(false);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		parameters = new Options();
-		
-		mainPanel = new JPanel();
+		//getContentPane().add(new Background("./img/ico/Wallpaperdobble.png"));
+		mainPanel = new JPanel(new GridLayout(4, 1));
+		mainPanel.setBorder(new EmptyBorder(this.getHeight()/6,this.getWidth()/6,this.getHeight()/6,this.getWidth()/6));
 		play = new JButton("Jouer");
 		play.addActionListener(new ActionListener() {
 			
@@ -77,7 +98,6 @@ public class Dobble extends JFrame{
 				play.setEnabled(false);
 			}
 		});
-		topPanel = new JPanel();
 		mainPanel.add(play);
 		
 		option = new JButton("Option");
@@ -185,7 +205,6 @@ public class Dobble extends JFrame{
 				}
 			}
 		});
-		midPanel = new JPanel();
 		mainPanel.add(option);mainPanel.add(scoreboard);
 		
 		leave = new JButton("Quitter");
@@ -196,13 +215,12 @@ public class Dobble extends JFrame{
 				System.exit(0);
 			}
 		});
-		botPanel = new JPanel();
 		mainPanel.add(leave);
 		
 		getContentPane().add(mainPanel);
 		
-		setLocation(100, 100);
-		setResizable(false);
+		//setLocation(100, 100);
+		setMinimumSize(new Dimension(500,500));
 		setVisible(true);
 	}
 	

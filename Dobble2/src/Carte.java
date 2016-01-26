@@ -1,5 +1,3 @@
-import java.awt.Graphics;
-
 /**
  * Cette classe représente un carte composée de plusieurs Symboles
  * @see Symbole

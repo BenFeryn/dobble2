@@ -1,9 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class DrawableCard extends JPanel{
 	
 	private Carte carte;

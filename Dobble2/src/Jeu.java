@@ -1,5 +1,7 @@
 import java.awt.Color;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -27,6 +29,7 @@ import javax.swing.JOptionPane;
  * @author Camille
  * @version 2.0
  */
+@SuppressWarnings("serial")
 public class Jeu extends JFrame implements MouseListener{
 
 	private static Paquet p;
@@ -124,23 +127,17 @@ public class Jeu extends JFrame implements MouseListener{
 
 	private void initFrame()
 	{
-		try {
-		    java.net.URL url = getClass().getClassLoader().getResource ("./img/ico/Wallpaperdooble.png");
-		    BufferedImage img = ImageIO.read (url);
-		    setBackground(new Color(200, 255, 200));
-		    getContentPane().setBackground(new Color(200, 255, 200));
-		    /*********************************/
-		    /* changer background en fonction de la réponse */
-		    /*********************************/
-		    //getContentPane().add(new JLabel(new ImageIcon(img)));
-		}
-		catch ( IOException e ) {		
-		    System.out.println ("[!] Erreur : L'image est introuvable.\n" + e);
-		}
-		hauteur = 800;
-		largeur = 1000;
+		setBackground(new Color(200, 200, 255));
+		getContentPane().setBackground(new Color(200, 200, 255));
+		//get local graphics environment
+		GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
+		//get maximum window bounds
+		Rectangle maximumWindowBounds=graphicsEnvironment.getMaximumWindowBounds();
+		hauteur = (int) maximumWindowBounds.getHeight();
+		largeur = (int) maximumWindowBounds.getWidth();
 		setSize(largeur, hauteur);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
@@ -229,6 +226,7 @@ public class Jeu extends JFrame implements MouseListener{
 		score++;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
+		getContentPane().setBackground(new Color(200, 255, 200));
 	}
 
 	/**
@@ -244,6 +242,7 @@ public class Jeu extends JFrame implements MouseListener{
 		 score--;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
+		getContentPane().setBackground(new Color(255, 200, 200));
 	}
 	
 	private void refreshScore()
