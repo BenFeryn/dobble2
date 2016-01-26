@@ -129,6 +129,9 @@ public class Jeu extends JFrame implements MouseListener{
 		    BufferedImage img = ImageIO.read (url);
 		    setBackground(new Color(200, 255, 200));
 		    getContentPane().setBackground(new Color(200, 255, 200));
+		    /*********************************/
+		    /* changer background en fonction de la réponse */
+		    /*********************************/
 		    //getContentPane().add(new JLabel(new ImageIcon(img)));
 		}
 		catch ( IOException e ) {		
