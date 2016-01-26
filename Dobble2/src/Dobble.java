@@ -1,22 +1,27 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 
 
 @SuppressWarnings("serial")
@@ -48,6 +53,18 @@ public class Dobble extends JFrame{
 		mainPanel = new JPanel(new GridLayout(4, 1));
 		mainPanel.setBorder(new EmptyBorder(this.getHeight()/6,this.getWidth()/6,this.getHeight()/6,this.getWidth()/6));
 		play = new JButton("Jouer");
+		play.setFont(new Font("SANS_SERIF", Font.BOLD, 50));
+		play.setBackground(new Color(132,112,255));
+		play.setBorder(new LineBorder(new Color(255,255,255)));
+		play.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				play.setBackground(new Color(72,61,139));
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+				play.setBackground(new Color(132,112,255));
+		    }
+		});
 		play.addActionListener(new ActionListener() {
 			
 			@Override
@@ -101,6 +118,18 @@ public class Dobble extends JFrame{
 		mainPanel.add(play);
 		
 		option = new JButton("Option");
+		option.setFont(new Font("SANS_SERIF", Font.BOLD, 50));
+		option.setBackground(new Color(132,112,255));
+		option.setBorder(new LineBorder(new Color(255,255,255)));
+		option.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				option.setBackground(new Color(72,61,139));
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+				option.setBackground(new Color(132,112,255));
+		    }
+		});
 		option.addActionListener(new ActionListener() {
 			
 			@Override
@@ -152,6 +181,18 @@ public class Dobble extends JFrame{
 			}
 		});
 		scoreboard = new JButton("Scores");
+		scoreboard.setFont(new Font("SANS_SERIF", Font.BOLD, 50));
+		scoreboard.setBackground(new Color(132,112,255));
+		scoreboard.setBorder(new LineBorder(new Color(255,255,255)));
+		scoreboard.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				scoreboard.setBackground(new Color(72,61,139));
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+				scoreboard.setBackground(new Color(132,112,255));
+		    }
+		});
 		scoreboard.addActionListener(new ActionListener() {
 			
 			@Override
@@ -208,6 +249,18 @@ public class Dobble extends JFrame{
 		mainPanel.add(option);mainPanel.add(scoreboard);
 		
 		leave = new JButton("Quitter");
+		leave.setFont(new Font("SANS_SERIF", Font.BOLD, 50));
+		leave.setBorder(new LineBorder(new Color(255,255,255)));
+		leave.setBackground(new Color(132,112,255));
+		leave.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				leave.setBackground(new Color(72,61,139));
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+				leave.setBackground(new Color(132,112,255));
+		    }
+		});
 		leave.addActionListener(new ActionListener() {
 			
 			@Override
