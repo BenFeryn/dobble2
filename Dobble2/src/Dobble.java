@@ -16,13 +16,15 @@ public class Dobble extends JFrame{
 	static JButton option;
 	static JButton scoreboard;
 	static JButton leave;
+	static Options parameters;
 	private JPanel mainPanel, topPanel, midPanel, botPanel;
 	
 	public Dobble(){
 		super("Dobble - Menu");
 		setSize(100, 175);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		parameters = new Options();
+		
 		mainPanel = new JPanel();
 		play = new JButton("Jouer");
 		play.addActionListener(new ActionListener() {
@@ -83,7 +85,50 @@ public class Dobble extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Just do it !");
+				option.setEnabled(false);
+				new OptionFrame().addWindowListener(new WindowListener() {
+					
+					@Override
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowClosing(WindowEvent e) {
+						option.setEnabled(true);
+					}
+					
+					@Override
+					public void windowClosed(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		});
 		scoreboard = new JButton("Scores");

@@ -1,13 +1,9 @@
-import java.awt.Image;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -16,7 +12,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -62,6 +57,7 @@ public class Jeu extends JFrame implements MouseListener{
 	
 	private static int score;
 	public static String name;
+	private JLabel labelScore;
 	
 	public Jeu()
 	{
@@ -82,8 +78,12 @@ public class Jeu extends JFrame implements MouseListener{
 		initialiseCartes();
 		
 		score = 0;
-		initTexte();
-		startTimer(60);
+		startTimer(Dobble.parameters.getTimer());
+		
+		labelScore = new JLabel("Score : "+score);
+		getContentPane().add(labelScore);
+		labelScore.setLocation(100, 100);
+		refreshScore();
 	}
 	
 	public static int getScore()
@@ -112,7 +112,12 @@ public class Jeu extends JFrame implements MouseListener{
 	
 	protected void finish()
 	{
-		name = JOptionPane.showInputDialog(this, "Votre score est de "+score+"\nQuel est vôtre nom ?");
+		do{
+			name = JOptionPane.showInputDialog(this, "Votre score est de "+score+"\nQuel est vôtre nom ?(',' et ':' exclus)");
+		}while(name.contains(",") || name.contains(":"));
+		
+		if(name.isEmpty())
+			name = "defaut";
 		WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
 	    Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 	}
@@ -122,6 +127,8 @@ public class Jeu extends JFrame implements MouseListener{
 		try {
 		    java.net.URL url = getClass().getClassLoader().getResource ("./img/ico/Wallpaperdooble.png");
 		    BufferedImage img = ImageIO.read (url);
+		    setBackground(new Color(200, 255, 200));
+		    getContentPane().setBackground(new Color(200, 255, 200));
 		    //getContentPane().add(new JLabel(new ImageIcon(img)));
 		}
 		catch ( IOException e ) {		
@@ -236,10 +243,9 @@ public class Jeu extends JFrame implements MouseListener{
 		System.out.println("Votre score est de "+score+" points !");
 	}
 	
-	public void initTexte(){
-	}
-	
-	public void refreshScore(){
+	private void refreshScore()
+	{
+		labelScore.setText("Score : "+score);
 	}
 
 
@@ -257,7 +263,7 @@ public class Jeu extends JFrame implements MouseListener{
 						otherCard = 1;
 					else
 						otherCard = 0;
-					forceSelection(otherCard, screenCard[i].getSymbole(j).getSymbole().getValeurSymbole());
+					forceSelection(otherCard, screenCard[i].getSymbole(j).getSymbole().getValeurSymbole());					
 				}
 			}
 		}
