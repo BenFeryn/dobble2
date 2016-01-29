@@ -225,7 +225,7 @@ public class Jeu extends JFrame implements MouseListener{
 		score++;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		getContentPane().setBackground(new Color(150, 255, 150));
+		setBackground(new Color(150, 255, 150));
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class Jeu extends JFrame implements MouseListener{
 		 score--;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		getContentPane().setBackground(new Color(255, 150, 150));
+		setBackground(new Color(255, 150, 150));
 	}
 	
 	private void refreshScore()
