@@ -87,6 +87,7 @@ public class Jeu extends JFrame implements MouseListener{
 		getContentPane().add(labelScore);
 		labelScore.setLocation(100, 100);
 		refreshScore();
+		revalidate();
 	}
 	
 	public static int getScore()
