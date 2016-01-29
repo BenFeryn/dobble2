@@ -6,14 +6,11 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -64,7 +61,7 @@ public class Jeu extends JFrame implements MouseListener{
 	
 	public Jeu()
 	{
-		super("Dobble");
+		super();
 		this.addMouseListener(this);
 		initFrame();
 		p = new Paquet();
@@ -84,10 +81,11 @@ public class Jeu extends JFrame implements MouseListener{
 		startTimer(Dobble.parameters.getTimer());
 		
 		labelScore = new JLabel("Score : "+score);
-		getContentPane().add(labelScore);
-		labelScore.setLocation(100, 100);
+		setTitle("Dobble - Score : "+score);
+		//getContentPane().add(labelScore, null);
+		//labelScore.setAlignmentX(120);
+		//labelScore.setLocation(100, 100);
 		refreshScore();
-		revalidate();
 	}
 	
 	public static int getScore()
@@ -128,8 +126,8 @@ public class Jeu extends JFrame implements MouseListener{
 
 	private void initFrame()
 	{
-		setBackground(new Color(200, 200, 255));
-		getContentPane().setBackground(new Color(200, 200, 255));
+		setBackground(new Color(150, 150, 255));
+		getContentPane().setBackground(new Color(150, 150, 255));
 		//get local graphics environment
 		GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
 		//get maximum window bounds
@@ -227,7 +225,7 @@ public class Jeu extends JFrame implements MouseListener{
 		score++;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		getContentPane().setBackground(new Color(200, 255, 200));
+		getContentPane().setBackground(new Color(150, 255, 150));
 	}
 
 	/**
@@ -243,12 +241,14 @@ public class Jeu extends JFrame implements MouseListener{
 		 score--;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		getContentPane().setBackground(new Color(255, 200, 200));
+		getContentPane().setBackground(new Color(255, 150, 150));
 	}
 	
 	private void refreshScore()
 	{
 		labelScore.setText("Score : "+score);
+		setTitle("Dobble - Score : "+score);
+		revalidate();
 	}
 
 

@@ -1,10 +1,13 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -14,6 +17,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.File;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -37,7 +43,7 @@ public class Dobble extends JFrame{
 	public Dobble(){
 		super("Dobble - Menu");
 		getContentPane().setBackground(new Color(200, 200, 255));
-		
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/ico/icone.png"));
 		//get local graphics environment
 		GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
 		//get maximum window bounds
@@ -73,7 +79,7 @@ public class Dobble extends JFrame{
 					
 					@Override
 					public void windowOpened(WindowEvent e) {
-						// TODO Auto-generated method stub
+						setVisible(false);
 						
 					}
 					
@@ -99,6 +105,7 @@ public class Dobble extends JFrame{
 					public void windowClosing(WindowEvent e) {
 						GameSave.saveScore();
 						play.setEnabled(true);
+						setVisible(true);
 					}
 					
 					@Override
