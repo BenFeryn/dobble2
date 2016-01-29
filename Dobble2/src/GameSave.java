@@ -37,8 +37,9 @@ public class GameSave {
 		{
 			try 
 			{
+				String temp = new String("no one : 0,no one : 0,");
 				Out = new FileWriter(Csts.PATHSCORE);
-				Out.write(name+":"+score+",");
+				Out.write(name+" : "+score+","+temp);
 				Out.close();
 			} 
 			catch (IOException e)
@@ -68,7 +69,10 @@ public class GameSave {
 		}    
 		catch (FileNotFoundException fnfe) //If the file doesn't exist
 		{
-			
+			for(int i=0;i<Csts.NB_SCORES;i++)
+			{
+				scoreboard[i] = new String("no one : 0");
+			}
 		} 
 		catch (IOException e) 
 		{
