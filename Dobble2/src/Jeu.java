@@ -220,6 +220,8 @@ public class Jeu extends JFrame implements MouseListener{
 	 */
 	private void bonnePaire() 
 	{
+		FlashBG success = new FlashBG(Csts.GAGNE, this);
+		success.start();
 		System.out.println("Nice ! GG.");
 		for(int i=0;i<Csts.CARTE_FENETRE;i++)
 		{
@@ -228,7 +230,6 @@ public class Jeu extends JFrame implements MouseListener{
 		score++;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		blinking(Csts.GAGNE);
 	}
 
 	/**
@@ -237,6 +238,8 @@ public class Jeu extends JFrame implements MouseListener{
 	
 	private void mauvaisePaire() 
 	{
+		FlashBG fail = new FlashBG(Csts.PERDU, this);
+		fail.start();
 		System.out.println("Kappa.");
 		for(int i=0;i<Csts.CARTE_FENETRE;i++)
 		{
@@ -246,22 +249,7 @@ public class Jeu extends JFrame implements MouseListener{
 		 score--;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		blinking(Csts.PERDU);
 	}
-	
-	private void blinking(Color c) {
-        setBackground(c);
-        Timer blinkTimer = new Timer(500, new ActionListener() {
-            boolean on=false;
-            public void actionPerformed(ActionEvent e) {
-                // blink the button background on and off
-                setBackground( on ? Csts.NEUTRE : null);
-                on = !on;
-            }
-        });
-        blinkTimer.start();
-    }
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
