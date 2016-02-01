@@ -31,7 +31,6 @@ public class Dobble extends JFrame{
 	public Dobble(){
 		super("Dobble - Menu");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/ico/icone.png"));
-		getContentPane().setBackground(new Color(200, 200, 255));
 		//get local graphics environment
 		GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
 		//get maximum window bounds

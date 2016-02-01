@@ -13,7 +13,7 @@ public class GameSave {
 		BufferedReader In;
 		FileWriter Out;
 		
-		try //If the file exists
+		try//If the file exists
 		{
 		    In = new BufferedReader(new FileReader(Csts.PATHSCORE));
 		    String line = In.readLine();

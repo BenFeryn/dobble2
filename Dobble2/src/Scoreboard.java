@@ -18,6 +18,7 @@ public class Scoreboard extends JFrame
 {
 
 	private JPanel mainPanel;
+	private JLabel nameScore;
 	private JLabel[] scoresTexte;
 	private JButton backToTheMenu;
 	
@@ -28,8 +29,10 @@ public class Scoreboard extends JFrame
 		
 		((JComponent) getContentPane()).setBorder(new EmptyBorder(10,10,10,10));
 		
+		nameScore = new JLabel("Score sur 60 secondes :");
 		mainPanel = new JPanel(new GridLayout(Csts.NB_SCORES,1));
 		mainPanel.setBorder(new EmptyBorder(5,0,20,0));
+		getContentPane().add(nameScore,BorderLayout.NORTH);
 		scoresTexte = new JLabel[Csts.NB_SCORES];
 		
 		backToTheMenu = new JButton("Close the tab");

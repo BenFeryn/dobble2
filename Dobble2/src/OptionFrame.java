@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 public class OptionFrame extends JFrame implements ActionListener
 {
 
-	private int[] possibleTimer = {1,5,15,30,60};
+	private int[] possibleTimer = {5,15,30,60};
 	
 	private JLabel titleTimer;
 	private JRadioButton checkTimer[];
