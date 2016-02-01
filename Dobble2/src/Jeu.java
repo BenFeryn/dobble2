@@ -218,32 +218,49 @@ public class Jeu extends JFrame implements MouseListener{
 	/**
 	 * M�thode appel� quand une paire de symbole est trouv�e par le joueur
 	 */
-	private void bonnePaire() {
+	private void bonnePaire() 
+	{
 		System.out.println("Nice ! GG.");
-		for(int i=0;i<Csts.CARTE_FENETRE;i++){
+		for(int i=0;i<Csts.CARTE_FENETRE;i++)
+		{
 			screenCard[i].getSelectedSymbole().setSelected(false);
 		}
 		score++;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		setBackground(new Color(150, 255, 150));
+		blinking(Csts.GAGNE);
 	}
 
 	/**
 	 * M�thode appel� quand le joueur selectionne une fausse paire
 	 */
 	
-	private void mauvaisePaire() {
+	private void mauvaisePaire() 
+	{
 		System.out.println("Kappa.");
-		for(int i=0;i<Csts.CARTE_FENETRE;i++){
+		for(int i=0;i<Csts.CARTE_FENETRE;i++)
+		{
 			screenCard[i].getSelectedSymbole().setSelected(false);
 		}
 		if(score > 0)
 		 score--;
 		initialiseCartes();
 		System.out.println("Votre score est de "+score+" points !");
-		setBackground(new Color(255, 150, 150));
+		blinking(Csts.PERDU);
 	}
+	
+	private void blinking(Color c) {
+        setBackground(c);
+        Timer blinkTimer = new Timer(500, new ActionListener() {
+            boolean on=false;
+            public void actionPerformed(ActionEvent e) {
+                // blink the button background on and off
+                setBackground( on ? Csts.NEUTRE : null);
+                on = !on;
+            }
+        });
+        blinkTimer.start();
+    }
 
 
 	@Override
