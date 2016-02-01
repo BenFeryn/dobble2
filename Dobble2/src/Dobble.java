@@ -1,27 +1,15 @@
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.io.File;
 
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -42,8 +30,8 @@ public class Dobble extends JFrame{
 	
 	public Dobble(){
 		super("Dobble - Menu");
-		getContentPane().setBackground(new Color(200, 200, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/ico/icone.png"));
+		getContentPane().setBackground(new Color(200, 200, 255));
 		//get local graphics environment
 		GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
 		//get maximum window bounds
@@ -55,7 +43,6 @@ public class Dobble extends JFrame{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		parameters = new Options();
-		//getContentPane().add(new Background("./img/ico/Wallpaperdobble.png"));
 		mainPanel = new JPanel(new GridLayout(4, 1));
 		mainPanel.setBorder(new EmptyBorder(this.getHeight()/6,this.getWidth()/6,this.getHeight()/6,this.getWidth()/6));
 		play = new JButton("Jouer");

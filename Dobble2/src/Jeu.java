@@ -3,6 +3,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  * Classe repr�sentant le mode de jeu basique.
@@ -55,9 +58,11 @@ public class Jeu extends JFrame implements MouseListener{
 	 * G�n�re un Paquet de carte, la fen�tre de jeu, la souris, les point o� se trouveront les cartes, m�lange les cartes et place les deux premi�res
 	 */
 	
+	protected Timer timer;
+	private static int valueTimer;
+	
 	private static int score;
 	public static String name;
-	private JLabel labelScore;
 	
 	public Jeu()
 	{
@@ -78,14 +83,10 @@ public class Jeu extends JFrame implements MouseListener{
 		initialiseCartes();
 		
 		score = 0;
-		startTimer(Dobble.parameters.getTimer());
-		
-		labelScore = new JLabel("Score : "+score);
-		setTitle("Dobble - Score : "+score);
-		//getContentPane().add(labelScore, null);
-		//labelScore.setAlignmentX(120);
-		//labelScore.setLocation(100, 100);
-		refreshScore();
+
+		setTitle("Dobble - Score : "+score+" - Time left : "+Dobble.parameters.getTimer());
+		startTimer();
+		revalidate();
 	}
 	
 	public static int getScore()
@@ -93,23 +94,23 @@ public class Jeu extends JFrame implements MouseListener{
 		return score;
 	}
 	
-	Runnable runnable = new Runnable() 
-	{
-		
-		@Override
-		public void run()
-		{
-			if(isActive())
-				finish();
-		}
-	};
-	
-	private void startTimer(int delaySeconds) 
-	{
-		  Executors.newSingleThreadScheduledExecutor().schedule(
-		    runnable,
-		    delaySeconds,
-		    TimeUnit.SECONDS);
+	private void startTimer(){
+		valueTimer = Dobble.parameters.getTimer();
+		int delay = 1000;
+		ActionListener taskPerformer = new ActionListener() {
+		      public void actionPerformed(ActionEvent evt) {
+		          setTitle("Dobble - Score : "+score+" - Time left : "+valueTimer);
+		          valueTimer--;
+		          if(valueTimer < 0)
+		          {
+		        	 timer.stop();
+		        	 if(isActive())
+		 				finish();
+		          }
+		      }
+		  };
+		  timer = new Timer(delay, taskPerformer);
+		  timer.start();
 	}
 	
 	protected void finish()
@@ -127,7 +128,6 @@ public class Jeu extends JFrame implements MouseListener{
 	private void initFrame()
 	{
 		setBackground(new Color(150, 150, 255));
-		getContentPane().setBackground(new Color(150, 150, 255));
 		//get local graphics environment
 		GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
 		//get maximum window bounds
@@ -210,7 +210,8 @@ public class Jeu extends JFrame implements MouseListener{
 			}else{
 				mauvaisePaire();
 			}
-			refreshScore();
+			revalidate();
+			
 		}
 	}
 
@@ -243,13 +244,6 @@ public class Jeu extends JFrame implements MouseListener{
 		System.out.println("Votre score est de "+score+" points !");
 		setBackground(new Color(255, 150, 150));
 	}
-	
-	private void refreshScore()
-	{
-		labelScore.setText("Score : "+score);
-		setTitle("Dobble - Score : "+score);
-		revalidate();
-	}
 
 
 	@Override
@@ -258,8 +252,6 @@ public class Jeu extends JFrame implements MouseListener{
 			for(int j=0; j < Csts.SYMBOLES_CARTE; j++){
 				if(screenCard[i].getSymbole(j) == null)break;
 				if(screenCard[i].getSymbole(j).isClicked(e.getPoint())){
-					System.out.println("[!] Selection symbole "+screenCard[i].getSymbole(j).getSymbole().getValeurSymbole()+" de la carte "+screenCard[i].getcarte().getId());
-					
 					screenCard[i].getSymbole(j).setSelected(true);
 					int otherCard;
 					if(i == 0)
