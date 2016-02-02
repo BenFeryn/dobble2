@@ -1,7 +1,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*                         				       *
-*   	     		      DOBBLE  		               *
-*                            				       *
+*                         				                       *
+*   	     		        DOBBLE  		                   *
+*                            				                   *
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - You must have Java 1.8 installed in order to run Dobble on your computer.
@@ -16,4 +16,6 @@
 
 - Rules : 
 	- You have two cards on your screen and you must find the matching symbols inside of these.
-	- 
+	- You have 60 seconds or less to find as much as possible cards
+	- If you pick the wrong symbol you lose 1 point
+	
